@@ -1,56 +1,69 @@
-// let a: number = 5
-// let b: number = 2
+import inquirer from "inquirer";
+interface ansType{
+    userId: string,
+    userPin: number,
+    accountType: string,
+    transactionType: string,
+    amount: number
 
-// let c: number;
-// c = ++a + a++ + --b + b-- + a + b++ + b
-// console.log("c:", c);
-
-import inquirer from"inquirer";
-
-const answers : {
-    numberOne: number
-    numberTwo: number
-    operator: string
 }
-= await inquirer.prompt([
+const answers: ansType = await inquirer.prompt([
+    {
+        type: "input",
+        name: "userId",
+        message: "kindly enter your Id: "
+
+    },
     {
         type: "number",
-        name: "numberOne",
-        message: "kindly enter your first no:"
+        name: "userPin",
+        message: "kindly enter your PIN: "
 
-},
-{
-    type: "number",
-    name: "numberTwo",
-    message: "kindly enter your second no:"
-    
-},
-{
-    type: "list",
-    name: "operator",
-    choices: ["*", "+", "-", "/"],
-    message: "select operator:"
-    
-    
-}
-]);
+    },
+    {
+        type: "list",
+        name: "accontType",
+        choices: ["current", "saving"],
+        message: "select your account Type:",
 
-const {numberOne, numberTwo, operator} = answers;
-if(numberOne && numberTwo && operator) {
-    let result: number = 0;
-    if(operator === "+"){
-        result = numberOne + numberTwo
-    }else  if(operator === "-"){
-        result = numberOne - numberTwo
-    }  if(operator === "/"){
-        result = numberOne / numberTwo
-    }  if(operator === "*"){
-        result = numberOne * numberTwo
+    },
+    {
+        type: "list",
+        name: "transactionType",
+        choices: ["fast cash", "withdraw"],
+        message: "select your transaction",
+       
+
+    },
+    {
+        type: "list",
+        name: "withdraw method",
+        choices: [500,1000,2000,10000,20000],
+        message: "select your amount",
+       
+
+    },
+    {
+        type: "number",
+        name: "amount",
+        
+        message: "Enter your amount",
+        when(answers) {
+            return answers.transactionType == "withdraw"
+        },
+
+    },
+])
+
+if(answers.userId && answers.userPin){
+    const balance = Math.floor(Math.random()*10000);
+    console.log(balance)
+    const Enteredamount= answers.amount;
+    if (balance >= Enteredamount){
+    const remaining = balance - Enteredamount;
+    console.log("your remaining balance is", remaining)
+
+    }else {
+        console.log("Insuficient balance")
     }
-
-    console.log("your result is :", result)
-}else{
-
 }
-
-    
